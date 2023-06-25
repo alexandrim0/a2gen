@@ -25,3 +25,10 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+
+.idea/
+
+
+# IMPORTANT!
+# Do not commit the API Key credentials file
+credentials.yaml
