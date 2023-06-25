@@ -21,7 +21,8 @@ class DbWriter {
 
   DbWriter(this.client) {}
 
-  Future<List<String>> getUIDs(String objType, [String objField = "uid"]) async {
+  Future<List<String>> getUIDs(String objType,
+      [String objField = "uid"]) async {
     // Read the list of uids for the given object type
     final queryResult = await client.query(QueryOptions(
       document: gql('''
@@ -117,7 +118,6 @@ class FakeGenerator {
   final DbWriter dbWriter;
 
   FakeGenerator(this.dbWriter);
-
 
   void generateContent(
       {int numUsers = 0,
