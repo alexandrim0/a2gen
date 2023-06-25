@@ -1,2 +1,2 @@
-# a2gen
-Dummy data generator for Gravity project Hasura backend
+A sample command-line application with an entrypoint in `bin/`, library code
+in `lib/`, and example unit test in `test/`.
