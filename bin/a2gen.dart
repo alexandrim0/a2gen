@@ -32,7 +32,7 @@ Future<void> main(List<String> args) async {
     }
   }
 
-  if (params.numVotes == null || params.numComments == null) return;
+  if (params.numVotes == null && params.numComments == null) return;
 
   // Add comments. Select authors and beacons randomly from existing ones.
   final beacons = await apiService.getUIDs(objType: 'beacon', objField: 'id');
