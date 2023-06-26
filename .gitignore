@@ -32,3 +32,4 @@ doc/api/
 # IMPORTANT!
 # Do not commit the API Key credentials file
 credentials.yaml
+bin/a2gen.exe
