@@ -19,8 +19,8 @@ Future<void> main(List<String> args) async {
     }
   }
 
-  if (params.numVotes == null ||
-      params.numBeacons == null ||
+  if (params.numVotes == null &&
+      params.numBeacons == null &&
       params.numComments == null) return;
 
   // Add beacons. Select authors randomly from existing users.
