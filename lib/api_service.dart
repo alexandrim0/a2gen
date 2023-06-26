@@ -86,9 +86,7 @@ class ApiService {
     required String query,
     required Map<String, String> vars,
   }) =>
-      _client.mutate(
-        MutationOptions(document: gql(query), variables: vars),
-      );
+      _client.mutate(MutationOptions(document: gql(query), variables: vars));
 
   String _generateRandomId([int len = 28]) {
     const alphabet =
