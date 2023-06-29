@@ -1,4 +1,4 @@
-enum A2Entity {
+enum A2Query {
   user(
     'query { user( limit: 100) { id}}',
     r'mutation ($objects: [user_insert_input!]!)'
@@ -20,7 +20,7 @@ enum A2Entity {
         'on_conflict: { constraint: vote_pkey, update_columns: amount}) { affected_rows}}',
   );
 
-  const A2Entity(this.query, this.mutation);
+  const A2Query(this.query, this.mutation);
 
   final String query, mutation;
 }

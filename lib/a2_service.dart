@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:graphql/client.dart';
 
-class A2ApiService {
-  A2ApiService({
+class A2Service {
+  A2Service({
     String? serverUrl,
     String? adminSecret,
   }) : _client = GraphQLClient(
@@ -18,19 +18,25 @@ class A2ApiService {
 
   final GraphQLClient _client;
 
-  Future<Map<String, Object?>?> query(String query) async =>
+  Future<Map<String, dynamic>?> query(
+    String query, [
+    Map<String, dynamic> vars = const {},
+  ]) async =>
       (await _client.query(QueryOptions(
-        onComplete: (data) => stdout.writeln(data.toString()),
-        onError: (e) => stdout.writeln(e.toString()),
-        document: gql(query),
-      )))
+              onComplete: (data) => stdout.writeln(data.toString()),
+              onError: (e) => stdout.writeln(e.toString()),
+              document: gql(query),
+              variables: vars)))
           .data;
 
-  Future<void> mutate(String query, [Map<String, Object?>? vars]) =>
+  Future<void> mutate(
+    String query, [
+    Map<String, dynamic> vars = const {},
+  ]) =>
       _client.mutate(MutationOptions(
         onCompleted: (data) => stdout.writeln(data.toString()),
         onError: (e) => stdout.writeln(e.toString()),
         document: gql(query),
-        variables: vars ?? const {},
+        variables: vars,
       ));
 }
