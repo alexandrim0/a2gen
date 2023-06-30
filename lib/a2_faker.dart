@@ -1,6 +1,9 @@
 import 'package:faker/faker.dart';
 
 class A2Faker {
+  static const _alphabet =
+      'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
   final _now = DateTime.now();
 
   String genName() => faker.person.name();
@@ -13,10 +16,8 @@ class A2Faker {
           .join('\n')
       : '';
 
-  String genUserId() => faker.randomGenerator.fromCharSet(
-        'abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-        28,
-      );
+  String genUserId() =>
+      'Generated${faker.randomGenerator.fromCharSet(_alphabet, 19)}';
 
   int genAmount({int min = 1}) => faker.randomGenerator.integer(10, min: min);
 

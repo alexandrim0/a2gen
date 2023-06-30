@@ -24,7 +24,7 @@ class A2Gen {
                     switch (query) {
                       A2Query.user => {
                           'id': faker.genUserId(),
-                          'display_name': faker.genName(),
+                          'title': faker.genName(),
                           'description': faker.genText(),
                         },
                       A2Query.beacon => {
