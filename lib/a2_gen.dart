@@ -49,9 +49,9 @@ class A2Gen {
               },
             );
 
-  Future<List?> getEntityCounts() => service
+  Future<Object> getEntityCounts() => service
       .query('query {entity_counts { users beacons comments votes}}')
-      .then((response) => response?['entity_counts']);
+      .then((response) => (response?['entity_counts'] as List).first);
 
   Future<List<String>> _getIdsOf(A2Query entity) =>
       service.query(entity.query, {'limit': maxBatchSize}).then(

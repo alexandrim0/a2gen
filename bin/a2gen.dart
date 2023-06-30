@@ -12,13 +12,15 @@ Future<void> main(List<String> args) async {
         ..addOption('max', abbr: 'm'))
       .parse(args);
 
-  stdout.writeln('''
+  if (args.isEmpty || params.rest.isNotEmpty) {
+    stdout.writeln('''
   - (u)sers    : The number of users to create
   - (b)eacons  : The number of beacons to create
   - (c)omments : The number of comments to create
   - (v)otes    : The number of votes to create
   - (m)ax      : The maxximum size of batch to get and to put (100)
 ''');
+  }
 
   final count = (
     max: int.tryParse(params['max'] ?? '100')!,

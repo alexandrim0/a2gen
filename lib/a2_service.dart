@@ -17,8 +17,8 @@ class A2Service {
     Map<String, dynamic> vars = const {},
   ]) async =>
       (await client.query(QueryOptions(
-        onComplete: (data) => stdout.writeln(data.toString()),
-        onError: (e) => stdout.writeln(e.toString()),
+        onComplete: stdout.writeln,
+        onError: stdout.writeln,
         document: gql(query),
         variables: vars,
       )))
@@ -29,8 +29,8 @@ class A2Service {
     Map<String, dynamic> vars = const {},
   ]) =>
       client.mutate(MutationOptions(
-        onCompleted: (data) => stdout.writeln(data.toString()),
-        onError: (e) => stdout.writeln(e.toString()),
+        onCompleted: stdout.writeln,
+        onError: stdout.writeln,
         document: gql(query),
         variables: vars,
       ));
