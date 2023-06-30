@@ -6,9 +6,9 @@ class A2Faker {
 
   final _now = DateTime.now();
 
-  String genName() => faker.person.name();
+  String genName() => faker.person.name().padRight(64).trimRight();
 
-  String genTitle() => faker.lorem.sentence();
+  String genTitle() => faker.lorem.sentence().padRight(64).trimRight();
 
   String genText() => faker.randomGenerator.boolean()
       ? faker.lorem
