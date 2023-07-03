@@ -31,4 +31,7 @@ class A2Faker {
           'coordinates': [faker.geo.latitude(), faker.geo.longitude()],
         }
       : null;
+
+  String genPlaceName() =>
+      '${faker.address.city()}, ${faker.address.country()}';
 }

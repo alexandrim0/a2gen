@@ -32,6 +32,7 @@ class A2Gen {
                           'description': faker.genText(),
                           'user_id': await _getUserId(),
                           'place': faker.genCoords(),
+                          'place_name': faker.genPlaceName(),
                           'timerange': faker.genTimerange(),
                         },
                       A2Query.comment => {
