@@ -31,7 +31,7 @@ class A2Gen {
                           'description': faker.genText(),
                           'user_id': await _getUserId(),
                           'timerange': faker.genTimerange(),
-                          ...faker.genPlace(),
+                          'place': faker.genPlace(),
                         },
                       A2Query.comment => {
                           'beacon_id': await _getBeaconId(),

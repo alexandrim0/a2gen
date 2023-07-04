@@ -27,13 +27,10 @@ class A2Faker {
       ? '["$_now","${_now.add(Duration(days: genInt(30, 1)))}"]'
       : null;
 
-  Map<String, Object> genPlace() => faker.randomGenerator.boolean()
-      ? {'place_name': ''}
+  Map<String, Object>? genPlace() => faker.randomGenerator.boolean()
+      ? null
       : {
-          'place': {
-            'type': 'Point',
-            'coordinates': [faker.geo.latitude(), faker.geo.longitude()],
-          },
-          'place_name': '${faker.address.city()}, ${faker.address.country()}',
+          'type': 'Point',
+          'coordinates': [faker.geo.latitude(), faker.geo.longitude()],
         };
 }
