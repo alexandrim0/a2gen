@@ -3,6 +3,8 @@ import 'package:collection/collection.dart';
 import 'a2_faker.dart';
 import 'a2_service.dart';
 
+part 'a2_query.dart';
+
 class A2Gen {
   var maxBatchSize = 100;
   var service = A2Service();
@@ -48,9 +50,14 @@ class A2Gen {
               },
             );
 
-  Future<Object> getEntityCounts() => service
-      .query('query {entity_counts { users beacons comments votes}}')
-      .then((response) => (response!['entity_counts'] as List).first);
+  Future<Object> getEntityCounts() => service.query(_entityCounts).then(
+        (data) => {
+          'users': data?['user_aggregate']['aggregate']['count'],
+          'beacons': data?['beacon_aggregate']['aggregate']['count'],
+          'comments': data?['comment_aggregate']['aggregate']['count'],
+          'votes': data?['vote_aggregate']['aggregate']['count'],
+        },
+      );
 
   Future<List<String>> _getIdsOf(A2Query entity) =>
       service.query(entity.query, {'limit': maxBatchSize}).then(
@@ -74,32 +81,4 @@ class A2Gen {
         2 => {'comment_id': await _getCommentId()},
         _ => {},
       };
-}
-
-enum A2Query {
-  user(
-    r'query ($limit: Int!) { user( limit: $limit) { id}}',
-    r'mutation ($objects: [user_insert_input!]!)'
-        r'{ insert_user(objects: $objects) { affected_rows}}',
-  ),
-  beacon(
-    r'query ($limit: Int!) { beacon( limit: $limit) { id}}',
-    r'mutation ($objects: [beacon_insert_input!]!)'
-        r'{ insert_beacon(objects: $objects) { affected_rows}}',
-  ),
-  comment(
-    r'query ($limit: Int!) { comment( limit: $limit) { id}}',
-    r'mutation ($objects: [comment_insert_input!]!)'
-        r'{ insert_comment(objects: $objects) { affected_rows}}',
-  ),
-  vote(
-    '',
-    r'mutation ($objects: [vote_insert_input!]!) { insert_vote(objects: $objects,'
-        'on_conflict: { constraint: vote_subject_user_id_beacon_id_comment_id_key,'
-        ' update_columns: amount}) { affected_rows}}',
-  );
-
-  const A2Query(this.query, this.mutation);
-
-  final String query, mutation;
 }
