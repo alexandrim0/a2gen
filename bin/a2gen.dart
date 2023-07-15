@@ -2,16 +2,17 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:collection/collection.dart';
 
+import 'package:a2gen/a2_entity.dart';
 import 'package:a2gen/a2_repository.dart';
 
 Future<void> main(List<String> args) async {
   final params = (ArgParser()
-        ..addOption(A2Query.user.name, abbr: 'u')
-        ..addOption(A2Query.beacon.name, abbr: 'b')
-        ..addOption(A2Query.comment.name, abbr: 'c')
-        ..addOption(A2Query.voteUser.name, abbr: 'U')
-        ..addOption(A2Query.voteBeacon.name, abbr: 'B')
-        ..addOption(A2Query.voteComment.name, abbr: 'C')
+        ..addOption(A2Entity.user.name, abbr: 'u')
+        ..addOption(A2Entity.beacon.name, abbr: 'b')
+        ..addOption(A2Entity.comment.name, abbr: 'c')
+        ..addOption(A2Entity.voteUser.name, abbr: 'U')
+        ..addOption(A2Entity.voteBeacon.name, abbr: 'B')
+        ..addOption(A2Entity.voteComment.name, abbr: 'C')
         ..addOption('max', abbr: 'm'))
       .parse(args);
 
@@ -31,7 +32,7 @@ Future<void> main(List<String> args) async {
 
     for (final option in params.options) {
       await generator.createGeneratedEntity(
-        A2Query.values.singleWhereOrNull((e) => e.name == option),
+        A2Entity.values.singleWhereOrNull((e) => e.name == option),
         int.tryParse(params[option]),
       );
     }
