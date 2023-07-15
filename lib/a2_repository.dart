@@ -5,7 +5,7 @@ import 'a2_service.dart';
 
 part 'a2_query.dart';
 
-class A2Gen {
+class A2Repository {
   var maxBatchSize = 100;
   var service = A2Service();
   var faker = A2Faker();
@@ -14,8 +14,8 @@ class A2Gen {
   List<String>? _beacons;
   List<String>? _comments;
 
-  Future<void> createEntity(A2Query query, int? count) async =>
-      count == null || count < 1 || count > maxBatchSize
+  Future<void> createGeneratedEntity(A2Query? query, int? count) async =>
+      query == null || count == null || count < 1 || count > maxBatchSize
           ? null
           : service.mutate(
               query.mutation,
@@ -40,22 +40,34 @@ class A2Gen {
                           'user_id': await _getUserId(),
                           'content': faker.genText(notEmpty: true),
                         },
-                      A2Query.vote => {
+                      A2Query.voteUser => {
                           'subject': await _getUserId(),
+                          'object': await _getUserId(),
                           'amount': faker.genInt(10, -1),
-                          ...await _getObjectId(),
+                        },
+                      A2Query.voteBeacon => {
+                          'subject': await _getUserId(),
+                          'object': await _getBeaconId(),
+                          'amount': faker.genInt(10, -1),
+                        },
+                      A2Query.voteComment => {
+                          'subject': await _getUserId(),
+                          'object': await _getCommentId(),
+                          'amount': faker.genInt(10, -1),
                         },
                     }
                 ],
               },
             );
 
-  Future<Object> getEntityCounts() => service.query(_entityCounts).then(
-        (data) => {
-          'users': data?['user_aggregate']['aggregate']['count'],
-          'beacons': data?['beacon_aggregate']['aggregate']['count'],
-          'comments': data?['comment_aggregate']['aggregate']['count'],
-          'votes': data?['vote_aggregate']['aggregate']['count'],
+  Future<Map?> getEntityCounts() => service.query(_entityCounts).then(
+        (data) {
+          if (data == null) return null;
+          data.removeWhere((key, _) => key == '__typename');
+          return data.map((k, v) => MapEntry(
+                k.replaceFirst('_aggregate', ''),
+                v['aggregate']['count'],
+              ));
         },
       );
 
@@ -74,11 +86,4 @@ class A2Gen {
 
   Future<String> _getCommentId() async =>
       (_comments ??= await _getIdsOf(A2Query.comment)).sample(1).single;
-
-  Future<Map<String, String>> _getObjectId() async => switch (faker.genInt(3)) {
-        0 => {'user_id': await _getUserId()},
-        1 => {'beacon_id': await _getBeaconId()},
-        2 => {'comment_id': await _getCommentId()},
-        _ => {},
-      };
 }
