@@ -20,7 +20,7 @@ class A2Repository {
                   for (var i = 0; i < count; i++)
                     switch (query) {
                       A2Entity.user => {
-                          'id': faker.genUserId(),
+                          'public_key': faker.genUserId(),
                           'title': faker.genName(),
                           'description': faker.genText(),
                         },
